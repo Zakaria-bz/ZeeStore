@@ -1,0 +1,81 @@
+:root {
+    --primary: #2563EB;
+    --dark: #111827;
+    --light: #F9FAFB;
+    --success: #16A34A;
+    --danger: #DC2626;
+    --accent: #F59E0B;
+}
+
+.layout {
+    width: 30%;
+    height: 500px;
+    background-color: var(--light);
+    padding: 20px;
+    margin: auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.438);
+    margin-top: 30px;
+    border-radius: 10px;
+}
+
+.layout h1 {
+    color: var(--dark);
+    font-size: 30px;
+}
+
+.layout h1 a {
+    color: var(--primary);
+    font-size: 25px;
+}
+
+.layout h4 {
+    color: var(--dark);
+    margin: 15px;
+}
+
+.container-login {
+    background-color: white;
+    padding: 50px 20px 60px 0;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    height: fit-content;
+    border-radius: 10px;
+}
+
+.container-login p {
+    font-weight: bold;
+}
+
+.container-login input {
+    padding: 4px 8px;
+    width: 90%;
+    text-align: right;
+    margin: 5px;
+    font-weight: bold;
+    border: 1px solid var(--success);
+    border-radius: 10px;
+    outline: none;
+}
+
+.layout button {
+    background-color: var(--primary);
+    padding: 10px 25px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 40px 120px;
+    transition: all 0.4s;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+}
+
+.layout button:hover {
+    background-color: var(--dark);
+    color: var(--light);
+    box-shadow: 0 10px 20px #2564ebcb;
+}
+
+.search-box {
+    display: flex;
+    justify-content: center;
+}

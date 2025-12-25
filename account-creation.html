@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeeStore</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/account-creation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <h1 class="logo"><a href="index.html">ZeeStore</a></h1>
+            <form class="search-box">
+                <input class="search-input" type="search" placeholder="ابحث عن منتج...">
+                <button class="search-btn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+            <div class="buttons">
+                <button class="btn fa-user-btn">
+                    <i class="fa-regular fa-user"></i>
+                    <a href="account-creation.html">الحساب</a>
+                </button>
+                <button class="btn btn-support">
+                    الدعم
+                    <i class="fa-solid fa-circle-question"></i>
+                </button>
+                <div class="language-selector">
+                    <button id="lang-btn" class="btn btn-lang">
+                        العربية
+                        <i class="fa-solid fa-globe"></i>
+                    </button>
+                    <ul id="lang-list" class="lang-list">
+                        <li class="item">العربية</li>
+                        <li class="item">English</li>
+                        <li class="item">Français</li>
+                    </ul>
+                </div>
+                <div class="heart-basket">
+                    <button class="btn icon-btn">
+                        <i class="fa-regular fa-heart"></i>
+                        <span class="counter" id="fav-count">0</span>
+                    </button>
+
+                    <button class="btn icon-btn">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="counter" id="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout">
+        <h1>تسجيل الدخول الى حسابك أو
+            <a href="#">تسجيل حساب جديد</a>
+        </h1>
+        <h4>كل بياناتك محمية</h4>
+        <div class="container-login">
+            <div class="phone-number">
+                <p>رقم الهاتف :</p>
+                <input type="tel" name="phone" placeholder="+213 555 12 34 56" pattern="^\+?[0-9\s]{8,15}$" required>
+            </div>
+            <div class="password">
+                <p>كلمة المرور :</p>
+                <input type="password" placeholder="ارجوك اجعلها من بين الاقوى ... هههههه">
+            </div>
+        </div>
+        <button type="submit">سجل الدخول</button>
+    </div>
+
+    <footer>
+        <div class="container-footer">
+            <h3>ZeeStore : خيارك الأفضل للتسوق عبر الإنترنت</h3>
+            <p>ZeeStore هو منصتكم الجزائريّة الموثوقة التي تربط بين المشترين والبائعين المعتمدين في جميع أنحاء الوطن.من
+                التكنولوجيا إلى الموضة مرورًا بمستلزمات المنزل والجمال، نوفر لكم <br>كل ما تحتاجونه في منصة واحدة آمنة
+                وسهلة
+                الاستخدام.مهمّتنا هي جعل التسوّق عبر الإنترنت بسيطًا، موثوقًا، ومتاحًا للجميع، مع دعم الشركات المحليّة
+                في
+                نموّها الرقمي.</p>
+            <div class="container-grid">
+                <div class="box">
+                    <h4>خدمة العملاء</h4>
+                    <ul>
+                        <li><a href="#">معلومات عنا</a></li>
+                        <li><a href="#">المسؤولية الاجتماعية</a></li>
+                        <li><a href="#">سجل كبائع</a></li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h4>التسوق معنا</h4>
+                    <ul>
+                        <li><a href="#">المساعدة</a></li>
+                        <li><a href="#">الشحن</a></li>
+                        <li><a href="#">الارجاع</a></li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h4>التعاون معنا</h4>
+                    <ul>
+                        <li><a href="#">كن بائعا</a></li>
+                        <li><a href="#">مركز مساعدة البائعين</a></li>
+                        <li><a href="#">تسجيل دخول البائعين</a></li>
+                        <li><a href="#">كن شريكا</a></li>
+                    </ul>
+                </div>
+            </div>
+            <h6>ابق على اتصال</h6>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+
+            <div class="search-box">
+                <input type="email" placeholder="أدخل بريدك الالكتروني">
+                <button class="search-btn subscribe">
+                    اشترك
+                </button>
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+
+<script src="js/main.js"></script>
+
+</html>

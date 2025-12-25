@@ -1,0 +1,353 @@
+:root {
+    --primary: #2563EB;
+    --dark: #111827;
+    --light: #F9FAFB;
+    --success: #16A34A;
+    --danger: #DC2626;
+    --accent: #F59E0B;
+}
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 400;
+}
+
+header {
+    background-color: var(--dark);
+    padding: 10px 0;
+}
+
+header .container {
+    height: 80px;
+    width: 94%;
+    margin: auto;
+    background: white;
+    border-radius: 40px;
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
+
+.search-box {
+    display: flex;
+    justify-content: center;
+}
+
+.search-box input {
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: 1px solid var(--accent);
+    outline: none;
+}
+
+.search-btn {
+    margin-right: 4px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 80px;
+    cursor: pointer;
+}
+
+.fa-user-btn a {
+    color: white;
+    text-decoration: none;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+
+.btn {
+    background: var(--dark);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 30px;
+    margin-right: 6px;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
+.btn:hover {
+    background: var(--primary);
+}
+
+.icon-btn {
+    position: relative;
+}
+
+.counter {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: var(--danger);
+    color: white;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+
+.hero {
+    height: 80vh;
+    background-image: url("https://images.unsplash.com/photo-1607082350899-7e105aa886ae");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: white;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    padding: 100px;
+}
+
+.hero-content p {
+    margin: 5px;
+}
+
+.btn-primary {
+    background: var(--primary);
+    padding: 14px 28px;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-primary a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.container-products {
+    display: flex;
+    margin-top: 20px;
+}
+
+.sidebar {
+    width: 220px;
+    padding: 20px;
+    height: fit-content;
+    background-color: var(--light);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 5px;
+}
+
+.sidebar ul li:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+
+.products {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+    width: calc(100% - 10px);
+    margin: auto;
+}
+
+.product-card {
+    background-color: var(--light);
+    padding: 12px;
+    border-radius: 10px;
+    transition: transform 0.3s;
+    position: relative;
+    transition: all 0.5s;
+}
+
+.product-card:hover {
+    transform: translatey(-5px);
+}
+
+.product-card img {
+    background: white;
+    width: 100%;
+    height: 170px;
+    object-fit: contain;
+    padding: 20px;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.product-card img:hover {
+    transform: scale(1.03);
+}
+
+.product-card p {
+    margin-bottom: 42px;
+}
+
+.product-card button {
+    position: absolute;
+    bottom: 10px;
+    transform: translate(-50%);
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+.product-card button:hover {
+    background-color: var(--dark);
+}
+
+/*               header              */
+
+.language-selector {
+    position: relative;
+    display: inline-block;
+}
+
+.lang-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    margin-top: 2px;
+    right: 0;
+    background-color: var(--dark);
+    border: 1px solid var(--primary);
+    color: var(--light);
+    border-radius: 8px;
+    list-style: none;
+    padding: 5px 0;
+    min-width: 120px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+.lang-list li {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.lang-list li:hover {
+    background-color: var(--accent);
+}
+
+.logo a {
+    color: black;
+    text-decoration: none;
+}
+
+.container-footer {
+    background-color: var(--light);
+    padding: 20px 60px;
+    margin-top: 30px;
+}
+
+.container-footer h3 {
+    color: #001a52;
+    font-weight: bold;
+    font-size: 25px;
+    margin: 5px 0;
+}
+
+.container-footer p {
+    color: gray;
+    margin: 10px 0;
+}
+
+.container-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
+.container-grid .box ul li {
+    list-style: none;
+    margin-top: 5px;
+    transition: all 0.6s;
+}
+
+.container-grid .box ul li a {
+    color: gray;
+}
+
+.container-grid .box ul li a:hover {
+    color: rgb(61, 61, 61);
+}
+
+.container-footer h6 {
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.container-footer ul li {
+    list-style: none;
+    margin: 10px;
+}
+
+.heart-button {
+    background: var(--primary);
+    padding: 14px 13px;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.heart-button.active {
+    background: #F59E0B;
+}
+
+.basket-btn.added {
+    background: var(--success);
+}
+
+.heart-button i {
+    color: white;
+}
+
+.heart-button.active i {
+    color: white;
+}
