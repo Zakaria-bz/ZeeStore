@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="css/prod-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>السوق الصغير 🛒</h1>
+        <div class="buttons-ul">
+            <button id="basket-btn">
+                🛒
+                <span class="count" id="basket-count">0</span>
+            </button>
+            <button id="fav-btn">
+                <i class="fa-regular fa-heart" id="fa-heart"></i>
+                <span class="count" id="fav-count">0</span>
+            </button>
+        </div>
+    </header>
+
+
+    <div id="product-details"></div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get("id");
+
+        if (productId) {
+            fetch(`https://fakestoreapi.com/products/${productId}`)
+                .then(res => res.json())
+                .then(product => {
+                    const container = document.getElementById("product-details");
+                    container.innerHTML = `
+                <h1>${product.title}</h1>
+                <div class="container-prod">
+                <img src="${product.image}" alt="${product.title}" width="300">
+                <div class="text-prod">
+                   <p class="description-text">description :</p> 
+                <p class="description">${product.description}</p>
+                <p><strong>Price:</strong> ${product.price} $</p>
+                <button id="add-to-cart">أضف للسلة</button>
+                <button class="back-btn" onclick="window.history.back()">Back</button>
+                </div>
+                </div>
+            `;
+                });
+        } else {
+            document.getElementById("product-details").innerHTML = "<p>Product not found</p>";
+        }
+    </script>
+
+
+    <aside id="fav-sidebar">
+        <button type="button" class="btn-close" aria-label="Close"></button>
+        <div class="container"></div>
+    </aside>
+
+    <script src="js/main.js"></script>
+
+</body>
+
+
+</html>

@@ -44,17 +44,27 @@
                         <li class="item">Français</li>
                     </ul>
                 </div>
-                <div class="heart-basket">
-                    <button class="btn icon-btn" id="fav-btn">
+
+                <aside id="" class="basket-sidebar">
+                    <button type="button" class="btn icon-btn" id="fav-btn" aria-label="Close">
                         <i class="fa-regular fa-heart"></i>
                         <span class="counter" id="fav-count">0</span>
                     </button>
-
-                    <button class="btn icon-btn">
+                    <div class="container-hed-bas">
+                        <div class="fav-header">
+                            <span>المفضلة</span>
+                            <small>آخر المنتجات التي أعجبتك</small>
+                        </div>
+                    </div>
+                </aside>
+                <aside id="">
+                    <button type="button" class="btn icon-btn" aria-label="Close">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span class="counter" id="cart-count">0</span>
                     </button>
-                </div>
+                    <div class="container-hed-bas"></div>
+                </aside>
+
             </div>
         </div>
     </header>
