@@ -1,66 +1,217 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details</title>
     <link rel="stylesheet" href="css/prod-style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
+   <header>
+        <div class="container">
+            <h1 class="logo"><a href="index.html">ZeeStore</a></h1>
+            <form class="search-box" id="search-form">
+                <input class="search-input" type="search" placeholder="ابحث عن منتج...">
+                <button class="search-btn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+            <div class="buttons">
+                <button class="btn fa-user-btn">
+                    <i class="fa-regular fa-user"></i>
+                    <a href="account-creation.html" target="_blank">الحساب</a>
+                </button>
+                <button class="btn btn-support">
+                    الدعم
+                    <i class="fa-solid fa-circle-question"></i>
+                </button>
+                <div class="language-selector">
+                    <button id="lang-btn" class="btn btn-lang">
+                        العربية
+                        <i class="fa-solid fa-globe"></i>
+                    </button>
+                    <ul id="lang-list" class="lang-list">
+                        <li class="item">العربية 
+                            <i class="fa-solid fa-globe"></i>
+                        </li>
+                        <li class="item">English
+                            <i class="fa-solid fa-globe"></i>
+                        </li>
+                        <li class="item">Français
+                            <i class="fa-solid fa-globe"></i>
+                        </li>
+                    </ul>
+                </div>
 
-    <header class="header">
-        <h1>السوق الصغير 🛒</h1>
-        <div class="buttons-ul">
-            <button id="basket-btn">
-                🛒
-                <span class="count" id="basket-count">0</span>
-            </button>
-            <button id="fav-btn">
-                <i class="fa-regular fa-heart" id="fa-heart"></i>
-                <span class="count" id="fav-count">0</span>
-            </button>
+                <aside id="" class="basket-sidebar">
+                    <button type="button" class="btn icon-btn" id="fav-btn" aria-label="Close">
+                        <i class="fa-regular fa-heart"></i>
+                        <span class="counter" id="fav-count">0</span>
+                    </button>
+                    <div class="container-hed-bas">
+                        <div class="fav-header">
+                            <span>المفضلة</span>
+                            <small>آخر المنتجات التي أعجبتك</small>
+                        </div>
+                    </div>
+                </aside>
+                <aside id="" class="basket-sidebar">
+                    <button type="button" class="btn icon-btn" id="bas-btn" aria-label="Close">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="counter" id="cart-count">0</span>
+                    </button>
+                    <div class="container-bas-bas">
+                        <div class="fav-header">
+                            <span>السلة:</span>
+                            <small>آخر المنتجات التي قمت باضافتها للسلة</small>
+                        </div>
+                    </div>
+                </aside>
+
+            </div>
         </div>
     </header>
-
 
     <div id="product-details"></div>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const productId = params.get("id");
 
-        if (productId) {
-            fetch(`https://fakestoreapi.com/products/${productId}`)
-                .then(res => res.json())
-                .then(product => {
-                    const container = document.getElementById("product-details");
-                    container.innerHTML = `
-                <h1>${product.title}</h1>
-                <div class="container-prod">
-                <img src="${product.image}" alt="${product.title}" width="300">
-                <div class="text-prod">
-                   <p class="description-text">description :</p> 
-                <p class="description">${product.description}</p>
-                <p><strong>Price:</strong> ${product.price} $</p>
-                <button id="add-to-cart">أضف للسلة</button>
-                <button class="back-btn" onclick="window.history.back()">Back</button>
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("id");
+        
+    if (productId) {
+        fetch(`https://fakestoreapi.com/products/${productId}`)
+            .then(res => res.json())
+            .then(product => {
+            
+                // عرض المنتج الحالي
+                const container = document.getElementById("product-details");
+                container.innerHTML = `
+                <h3 class="h3-prd">${product.title}</h3>
+                <div class="row">
+                    <div class="col2">
+                        <div class="container-prod">
+                            <div class="text-prod" align="left">
+                                <p class="description-text">: description</p> 
+                                <p class="description">${product.description}</p>
+                                <p class="prd-price"><strong>Price:</strong> $ ${product.price}</p>
+                                <button id="add-to-cart">Add To Cart</button>
+                                <button class="back-btn" onclick="window.history.back()">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col2">
+                        <img src="${product.image}" alt="${product.title}" class="img-prd">
+                    </div>
                 </div>
-                </div>
-            `;
-                });
-        } else {
-            document.getElementById("product-details").innerHTML = "<p>Product not found</p>";
-        }
+                `;
+
+                // 🔥 جلب منتجات من نفس الصنف
+                fetch(`https://fakestoreapi.com/products/category/${product.category}`)
+                    .then(res => res.json())
+                    .then(relatedProducts => {
+                    
+                        const relatedContainer = document.querySelector(".related-container");
+
+                        const container = document.querySelector('.related-container');
+                            
+                        container.addEventListener('wheel', (e) => {
+                            e.preventDefault();
+                            container.scrollLeft += e.deltaY;
+                        });
+                
+                    
+                        relatedProducts.forEach(item => {
+                        
+                            // لتفادي عرض نفس المنتج
+                            if (item.id !== product.id) {
+                                relatedContainer.innerHTML += `
+                                    <div class="related-card">
+                                        <img src="${item.image}">
+                                        <h4>${item.title}</h4>
+                                        <p>$${item.price}</p>
+                                        <a href="product.html?id=${item.id}">عرض</a>
+                                    </div>
+                                `;
+                            }
+                        
+                        });
+                    
+                    });
+                
+            });
+    } else {
+        document.getElementById("product-details").innerHTML = "<p>Product not found</p>";
+    }
     </script>
 
-
     <aside id="fav-sidebar">
-        <button type="button" class="btn-close" aria-label="Close"></button>
-        <div class="container"></div>
+        <div class="container-aside">
+        </div>
     </aside>
+
+    <div id="related-products">
+        <h2>منتجات مشابهة</h2>
+        <div class="related-container"></div>
+    </div>
+
+    <footer>
+        <div class="container-footer">
+            <h3>ZeeStore : خيارك الأفضل للتسوق عبر الإنترنت</h3>
+            <p>ZeeStore هو منصتكم الجزائريّة الموثوقة التي تربط بين المشترين والبائعين المعتمدين في جميع أنحاء الوطن.من
+                التكنولوجيا إلى الموضة مرورًا بمستلزمات المنزل والجمال، نوفر لكم <br>كل ما تحتاجونه في منصة واحدة آمنة
+                وسهلة
+                الاستخدام.مهمّتنا هي جعل التسوّق عبر الإنترنت بسيطًا، موثوقًا، ومتاحًا للجميع، مع دعم الشركات المحليّة
+                في
+                نموّها الرقمي.</p>
+            <div class="container-grid">
+                <div class="box">
+                    <h4>خدمة العملاء</h4>
+                    <ul>
+                        <li><a href="#">معلومات عنا</a></li>
+                        <li><a href="#">المسؤولية الاجتماعية</a></li>
+                        <li><a href="#">سجل كبائع</a></li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h4>التسوق معنا</h4>
+                    <ul>
+                        <li><a href="#">المساعدة</a></li>
+                        <li><a href="#">الشحن</a></li>
+                        <li><a href="#">الارجاع</a></li>
+                    </ul>
+                </div>
+                <div class="box">
+                    <h4>التعاون معنا</h4>
+                    <ul>
+                        <li><a href="#">كن بائعا</a></li>
+                        <li><a href="#">مركز مساعدة البائعين</a></li>
+                        <li><a href="#">تسجيل دخول البائعين</a></li>
+                        <li><a href="#">كن شريكا</a></li>
+                    </ul>
+                </div>
+            </div>
+            <h6>ابق على اتصال</h6>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+
+            <div class="search-box">
+                <input type="search" placeholder="أدخل بريدك الالكتروني">
+                <button class="search-btn subscribe">
+                    اشترك
+                </button>
+            </div>
+
+        </div>
+    </footer>
 
     <script src="js/main.js"></script>
 

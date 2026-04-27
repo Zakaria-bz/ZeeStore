@@ -93,6 +93,17 @@
     <div class="container-products">
         <aside class="sidebar">
             <h3>الأصناف</h3>
+            <div class="price-filter">
+              <h4>السعر</h4>
+              <input type="number" id="minPrice" placeholder="من">
+              <input type="number" id="maxPrice" placeholder="إلى">
+              <button onclick="filterByPrice()">تطبيق</button>
+            </div>
+            <div class="price-filter">
+            <h4>السعر</h4>
+              <input type="range" id="priceRange" min="0" max="1000" value="1000">
+              <p>حتى: <span id="priceValue">1000</span>$</p>
+            </div>
             <ul>
                 <li onclick="filterProducts('all')">الكل</li>
                 <li onclick="filterProducts('electronics')">إلكترونيات</li>

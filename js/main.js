@@ -5,6 +5,14 @@ const State = {
     loading: true
 };
 
+const max = Math.max(...State.products.map(p => p.price));
+
+let currentFilters = {
+    search: "",
+    category: "all",
+    minPrice: 0,
+};
+
 const UI = {
     products: document.getElementById("products"),
     searchForm: document.getElementById("search-form"),
@@ -112,12 +120,55 @@ function fetchProducts() {
         .then(data => {
             State.products = data;
             State.loading = false;
-            renderProducts(data);
+            applyFilters(currentFilters);
             syncUI();
         })
         .catch(() => {
             UI.products.innerHTML = `<p style="text-align:center">فشل تحميل المنتجات</p>`;
         });
+}
+
+function filterProducts(category) {
+    currentFilters.category = category;
+    applyFilters(currentFilters);
+}
+
+function filterByPrice() {
+    const min = Number(document.getElementById("minPrice").value) || 0;
+    const max = Number(document.getElementById("maxPrice").value) || Infinity;
+
+    currentFilters.minPrice = min;
+    currentFilters.maxPrice = max;
+
+    applyFilters(currentFilters);
+}
+
+function applyFilters({ search = "", category = "all", minPrice = 0, maxPrice = Infinity }) {
+    let result = [...State.products];
+
+    const priceRange = document.getElementById("priceRange");
+
+    if (priceRange) {
+        const max = Math.max(...State.products.map(p => p.price));
+        priceRange.max = Math.ceil(max);
+    }
+
+    if (category !== "all") {
+        result = result.filter(p => p.category === category);
+    }
+
+    if (search) {
+        result = result.filter(p =>
+            p.title.toLowerCase().includes(search.toLowerCase())
+        );
+    }
+
+    result = result.filter(p =>
+        p.price >= minPrice && p.price <= maxPrice
+    );
+
+    renderProducts(result);
+    syncUI();
 }
 
 function renderProducts(list) {
@@ -127,8 +178,8 @@ function renderProducts(list) {
     }
 
     UI.products.innerHTML = list.map(p => `
-    <div class="product-card" data-id="${p.id}">
-      <img src="${p.image}">
+    <div class="product-card" data-id="${p.id}" data-category="${p.category}">
+      <img src="${p.image}" class="product-img" data-id="${p.id}">
       <h3>${p.title}</h3>
       <p>${p.price} $</p>
       <div class="produc-btns">
@@ -137,6 +188,12 @@ function renderProducts(list) {
       </div>
     </div>
   `).join("");
+      document.querySelectorAll(".product-img").forEach(img => {
+        img.addEventListener("click", (e) => {
+            const id = e.target.dataset.id;
+            window.location.href = `product.html?id=${id}`;
+        });
+    })
 }
 
 function renderLoading() {
@@ -145,12 +202,8 @@ function renderLoading() {
 
 function handleSearch(e) {
     e.preventDefault();
-    const q = UI.searchInput.value.toLowerCase();
-    const filtered = State.products.filter(p =>
-        p.title.toLowerCase().includes(q)
-    );
-    renderProducts(filtered);
-    syncUI();
+    currentFilters.search = UI.searchInput.value;
+    applyFilters(currentFilters);
 }
 
 function handleProductActions(e) {

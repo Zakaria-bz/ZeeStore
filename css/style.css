@@ -282,6 +282,7 @@ header .container {
     padding: 16px;
     border-radius: 10px;
     transition: transform 0.25s ease;
+    cursor: pointer;
 }
 
 .product-card img:hover {
