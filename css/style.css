@@ -73,23 +73,51 @@ header .container {
 .search-box {
     display: flex;
     justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.search-box {
+    position: relative;
+    display: inline-block;
 }
 
 .search-box input {
-    padding: 10px 20px;
+    padding: 10px 20px 10px 60px; 
+    width: 350px;
     border-radius: 30px;
-    border: 1px solid var(--accent);
+    border: 1px solid var(--primary);
     outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-box input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 5px var(--primary);
 }
 
 .search-btn {
-    margin-right: 4px;
+    position: absolute;
+    left: 3px;
+    top: 50%;
+    transform: translateY(-50%);
     background: var(--primary);
     color: white;
     border: none;
-    padding: 10px 14px;
-    border-radius: 80px;
+    padding: 8px 23px;
+    border-radius: 20px;
     cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.search-btn:hover {
+    background-color: #2564ebe3;
+    transform: translateY(-50%) scale(1.02);
+}
+
+.search-btn:active {
+    transform: translateY(-50%) scale(0.95);
 }
 
 .fa-user-btn a {
@@ -230,28 +258,30 @@ header .container {
     scroll-margin-top: 100px;
 }
 
-
 .product-card {
+    display: flex;
+    flex-direction: column;
     background-color: var(--light);
-    padding: 12px;
-    border-radius: 10px;
-    transition: transform 0.3s;
-    position: relative;
-    transition: all 0.5s;
+    padding: 16px;
+    border-radius: 12px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    height: 100%;
+    gap: 12px;
 }
 
 .product-card:hover {
-    transform: translatey(-5px);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.08);
 }
 
 .product-card img {
-    background: white;
     width: 100%;
-    height: 170px;
+    height: 180px;
     object-fit: contain;
-    padding: 20px;
-    border-radius: 8px;
-    transition: all 0.3s;
+    background: #fff;
+    padding: 16px;
+    border-radius: 10px;
+    transition: transform 0.25s ease;
 }
 
 .product-card img:hover {
@@ -259,19 +289,39 @@ header .container {
 }
 
 .product-card p {
-    margin-bottom: 42px;
+    text-align: center;
+    line-height: 1.4;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.produc-btns {
+    display: flex;
+}
+
+.basket-btn {
+    width: 85%;
+    margin-left: 5px;
+}
+
+.heart-button {
+    width: 20%;
 }
 
 .product-card button {
-    position: absolute;
-    bottom: 10px;
-    transform: translate(-50%);
-    transition: all 0.3s;
-    font-weight: bold;
+    margin-top: auto;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.25s ease, transform 0.2s ease;
 }
 
 .product-card button:hover {
     background-color: var(--dark);
+    transform: translateY(-1px);
 }
 
 /*               header              */
@@ -296,6 +346,10 @@ header .container {
     min-width: 120px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     z-index: 100;
+}
+
+.show {
+    display: block;
 }
 
 .lang-list li {
@@ -387,12 +441,13 @@ header .container {
     color: white;
 }
 
-.container-hed-bas {
+.container-hed-bas,
+.container-bas-bas {
     display: none;
     position: absolute;
     top: 78px;
     left: 0;
-    width: 380px;
+    width: 450px;
     max-height: 460px;
     overflow-y: auto;
     background: white;
@@ -402,7 +457,8 @@ header .container {
     animation: dropdownFade .25s ease;
 }
 
-.container-hed-bas.active {
+.container-hed-bas.active,
+.container-bas-bas.active {
     display: block;
 }
 
@@ -423,10 +479,10 @@ header .container {
 
 .fav-item {
     display: flex;
-    gap: 18px;
-    padding: 18px;
+    gap: 10px;
+    padding: 12px;
     border-radius: 8px;
-    margin: 10px;
+    margin: 10px 15px;
     background: #f1f5f9;
     cursor: pointer;
     transition: .3s;
@@ -464,6 +520,67 @@ header .container {
     font-size: 15px;
     font-weight: 900;
     color: var(--primary);
+}
+
+.content-fav-item button{
+    background-color: var(--dark);
+    color: var(--light);
+    font-weight: bold;
+    border: none;
+    padding: 10px 0;
+    width: 100%;
+    min-width: 280px;
+    border-radius: 5px;
+    transition: all 0.5s;
+}
+
+.content-fav-item button:hover {
+    background-color: #111827da;
+}
+
+.cart-controls {
+    background: var(--light);
+    width: fit-content;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.cart-controls button {
+    background: var(--primary);
+    border: none;
+    border-radius: 10px;
+    padding: 4px 10px;
+    color: white;
+    font-weight: bold;
+}
+
+.cart-controls button:hover {
+    background: #2564ebda;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    max-width: 90%;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.cart-total button {
+    background: var(--accent);
+    border: none;
+    border-radius: 10px;
+    color: black;
+    font-weight: bold;
+    padding: 7px 15px;
+    transition: 0.5s;
+}
+
+.cart-total button:hover {
+    background-color: var(--success);
+    transform: scale(1.05);
+    color: white;
 }
 
 @keyframes dropdownFade {

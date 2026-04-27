@@ -9,10 +9,14 @@ const UI = {
     products: document.getElementById("products"),
     searchForm: document.getElementById("search-form"),
     searchInput: document.querySelector(".search-input"),
+    langBtn: document.querySelector("#lang-btn"),
+    liLangBtn: document.querySelectorAll(".item"),
     favBtn: document.getElementById("fav-btn"),
+    basBtn: document.getElementById("bas-btn"),
     favCount: document.getElementById("fav-count"),
     cartCount: document.getElementById("cart-count"),
-    favDropdown: document.querySelector(".container-hed-bas")
+    favDropdown: document.querySelector(".container-hed-bas"),
+    basDropdown: document.querySelector(".container-bas-bas")
 };
 
 init();
@@ -24,6 +28,8 @@ function init() {
 }
 
 function bindEvents() {
+    const langList = document.querySelector("#lang-list");
+
     UI.searchForm?.addEventListener("submit", handleSearch);
 
     UI.products?.addEventListener("click", handleProductActions);
@@ -34,8 +40,68 @@ function bindEvents() {
         renderFavorites();
     });
 
+    UI.basBtn?.addEventListener("click", e => {
+        e.stopPropagation();
+        UI.basDropdown.classList.toggle("active");
+        renderBasket();
+    });
+
+    UI.langBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    langList.classList.toggle("show");
+    });
+
+    langList.addEventListener("click", (e) => {
+        e.stopPropagation();
+    });
+
+    UI.liLangBtn.forEach(li => {
+        li.addEventListener("click", (e) => {
+            UI.langBtn.innerHTML = e.target.innerHTML;
+            langList.classList.remove("show");
+        });
+    });
+
     document.addEventListener("click", () => {
-        UI.favDropdown.classList.remove("active");
+        langList.classList.remove("show");
+        UI.favDropdown?.classList.remove("active");
+        UI.basDropdown?.classList.remove("active");
+    });
+
+    UI.basDropdown?.addEventListener("click", (e) => {
+    
+        const incBtn = e.target.closest(".incQty");
+        const decBtn = e.target.closest(".decQty");
+        const rmBtn  = e.target.closest(".rmPrdPa");
+    
+        if (incBtn) {
+            const id = Number(incBtn.dataset.id);
+            const item = State.cart.find(i => i.id === id);
+            if (item) item.qty++;
+        }
+    
+        if (decBtn) {
+            const id = Number(decBtn.dataset.id);
+            const item = State.cart.find(i => i.id === id);
+        
+            if (!item) return;
+        
+            if (item.qty > 1) {
+                item.qty--;
+            } else {
+                State.cart = State.cart.filter(i => i.id !== id);
+            }
+        }
+    
+        if (rmBtn) {
+            const id = Number(rmBtn.dataset.id);
+            State.cart = State.cart.filter(i => i.id !== id);
+        }
+    
+        localStorage.setItem("cart", JSON.stringify(State.cart));
+        updateCounters();
+        syncUI();
+        renderBasket();
     });
 }
 
@@ -65,8 +131,10 @@ function renderProducts(list) {
       <img src="${p.image}">
       <h3>${p.title}</h3>
       <p>${p.price} $</p>
-      <button class="basket-btn btn-primary">أضف للسلة</button>
-      <button class="heart-button"><i class="fa-regular fa-heart"></i></button>
+      <div class="produc-btns">
+        <button class="basket-btn btn-primary">أضف للسلة</button>
+        <button class="heart-button"><i class="fa-regular fa-heart"></i></button>
+      </div>
     </div>
   `).join("");
 }
@@ -139,6 +207,82 @@ function renderFavorites() {
       </div>
     `;
     });
+}
+
+function renderBasket() {
+    UI.basDropdown.innerHTML = `
+    <div class="fav-header">
+      <span>السلة</span>
+      <small>آخر المنتجات التي اضفتها للسلة :</small>
+    </div>
+  `;
+
+    if (!State.cart.length) {
+        UI.basDropdown.innerHTML += `<p style="padding:20px;text-align:center">لا توجد منتجات مضافة للسلة</p>`;
+        return;
+    }
+
+    let total = 0;
+
+    State.cart.forEach(item => {
+      const p = State.products.find(x => Number(x.id) === Number(item.id));
+      if (!p) return;
+
+      total += p.price * item.qty;
+    });
+
+    console.log(State.cart);
+
+    UI.basDropdown.innerHTML = `
+        <div class="fav-header">
+            <span>السلة:</span>
+            <small>آخر المنتجات التي أعجبتك قمت باضافتها</small>
+        </div>
+    `;
+
+    State.cart.forEach(item => {
+      const p = State.products.find(x => x.id === item.id);
+      if (!p) return;
+
+      const largeQty = item.qty > 1 ? "منتجات" : "منتج";
+
+      const aboutItem = `
+        <button class="AboutPrdpa">عرض معلومات عنه</button>
+      `;
+
+        const controls = `
+          <div class="cart-controls">
+            <button class="decQty" data-id="${item.id}">-</button>
+            <span>${item.qty}</span>
+            <button class="incQty" data-id="${item.id}">+</button>
+            <button class="rmPrdPa" data-id="${item.id}">❌</button>
+          </div>
+        `;
+
+      UI.basDropdown.innerHTML += `
+        <div class="fav-item">
+          <img src="${p.image}">
+          <div>
+            <h4>${p.title}</h4>
+            <p>سعر الواحد : ${p.price}$</p>
+            <p class="total-items"> الكمية: ${controls} </p>
+            <p>عدد المنتجات المضافة منه : ${item.qty} ${largeQty} <br /> <div class="content-fav-item">${aboutItem}</div></p>
+          </div>
+        </div>
+      `;
+    });
+
+    if (State.cart.length === 0) {
+      UI.basDropdown.innerHTML = "<p>السلة فارغة</p>";
+      return;
+    }
+
+    UI.basDropdown.innerHTML += `
+      <div class="cart-total">
+        <strong>الإجمالي: ${total.toFixed(2)} $</strong>
+        <button class="checkout-btn">إتمام الطلب</button>
+      </div>
+    `;
 }
 
 function syncUI() {
