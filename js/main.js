@@ -1,11 +1,13 @@
-const State = {
-    products: [],
+const State ={
+    products: JSON.parse(localStorage.getItem("products")) || [],
     favorites: JSON.parse(localStorage.getItem("favorites")) || [],
     cart: JSON.parse(localStorage.getItem("cart")) || [],
     loading: true
 };
 
-const max = Math.max(...State.products.map(p => p.price));
+const max = State.products.length 
+    ? Math.max(...State.products.map(p => p.price)) 
+    : 0;
 
 let currentFilters = {
     search: "",
@@ -23,94 +25,19 @@ const UI = {
     basBtn: document.getElementById("bas-btn"),
     favCount: document.getElementById("fav-count"),
     cartCount: document.getElementById("cart-count"),
-    favDropdown: document.querySelector(".container-hed-bas"),
-    basDropdown: document.querySelector(".container-bas-bas")
+    favDropdown: document.getElementById("fav-dropdown"),
+    basDropdown: document.getElementById("bas-dropdown")
 };
 
-init();
+document.addEventListener("DOMContentLoaded", init);
 
 function init() {
     updateCounters();
     bindEvents();
-    fetchProducts();
-}
 
-function bindEvents() {
-    const langList = document.querySelector("#lang-list");
-
-    UI.searchForm?.addEventListener("submit", handleSearch);
-
-    UI.products?.addEventListener("click", handleProductActions);
-
-    UI.favBtn?.addEventListener("click", e => {
-        e.stopPropagation();
-        UI.favDropdown.classList.toggle("active");
-        renderFavorites();
-    });
-
-    UI.basBtn?.addEventListener("click", e => {
-        e.stopPropagation();
-        UI.basDropdown.classList.toggle("active");
-        renderBasket();
-    });
-
-    UI.langBtn?.addEventListener("click", (e) => {
-    e.stopPropagation();
-    langList.classList.toggle("show");
-    });
-
-    langList.addEventListener("click", (e) => {
-        e.stopPropagation();
-    });
-
-    UI.liLangBtn.forEach(li => {
-        li.addEventListener("click", (e) => {
-            UI.langBtn.innerHTML = e.target.innerHTML;
-            langList.classList.remove("show");
-        });
-    });
-
-    document.addEventListener("click", () => {
-        langList.classList.remove("show");
-        UI.favDropdown?.classList.remove("active");
-        UI.basDropdown?.classList.remove("active");
-    });
-
-    UI.basDropdown?.addEventListener("click", (e) => {
-    
-        const incBtn = e.target.closest(".incQty");
-        const decBtn = e.target.closest(".decQty");
-        const rmBtn  = e.target.closest(".rmPrdPa");
-    
-        if (incBtn) {
-            const id = Number(incBtn.dataset.id);
-            const item = State.cart.find(i => i.id === id);
-            if (item) item.qty++;
-        }
-    
-        if (decBtn) {
-            const id = Number(decBtn.dataset.id);
-            const item = State.cart.find(i => i.id === id);
-        
-            if (!item) return;
-        
-            if (item.qty > 1) {
-                item.qty--;
-            } else {
-                State.cart = State.cart.filter(i => i.id !== id);
-            }
-        }
-    
-        if (rmBtn) {
-            const id = Number(rmBtn.dataset.id);
-            State.cart = State.cart.filter(i => i.id !== id);
-        }
-    
-        localStorage.setItem("cart", JSON.stringify(State.cart));
-        updateCounters();
-        syncUI();
-        renderBasket();
-    });
+    if (UI.products) {
+        fetchProducts();
+    }
 }
 
 function fetchProducts() {
@@ -144,7 +71,61 @@ function filterByPrice() {
 }
 
 function bindEvents() {
+    addEventListener("click", (e) => {
+        const favBtn = e.target.closest("#fav-btn");
+        const basBtn = e.target.closest("#bas-btn");
+        
+        // جلب العناصر مباشرة عند الضغط لضمان وجودها
+        const favDropdown = document.getElementById("fav-dropdown");
+        const basDropdown = document.getElementById("bas-dropdown");
 
+        if (favBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            favDropdown.classList.toggle("active");
+            basDropdown?.classList.remove("active");
+            renderFavorites();
+        }
+
+        if (basBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            basDropdown.classList.toggle("active");
+            favDropdown?.classList.remove("active");
+            renderBasket();
+        }
+
+        // إغلاق القوائم عند الضغط خارجها
+        if (!e.target.closest(".basket-sidebar") && !e.target.closest(".container-bas-bas") && !e.target.closest(".container-hed-bas")) {
+            favDropdown?.classList.remove("active");
+            basDropdown?.classList.remove("active");
+        }
+    });
+
+    const langList = document.querySelector("#lang-list");
+
+    // search
+    UI.searchForm?.addEventListener("submit", handleSearch);
+
+    // products
+    if (UI.products) {
+        UI.products.addEventListener("click", handleProductActions);
+    }
+
+    // language
+    UI.langBtn?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        langList.classList.toggle("show");
+    });
+
+    UI.liLangBtn.forEach(li => {
+        li.addEventListener("click", (e) => {
+            UI.langBtn.innerHTML = e.target.innerHTML;
+            langList.classList.remove("show");
+        });
+    });
+
+    // 🔥 price range (من الدالة التانية)
     const priceRange = document.getElementById("priceRange");
     const priceValue = document.getElementById("priceValue");
 
@@ -194,9 +175,9 @@ function renderProducts(list) {
         return;
     }
 
-    UI.products.innerHTML = list.map(p => `
-    <div class="product-card" data-id="${p.id}" data-category="${p.category}">
-      <img src="${p.image}" class="product-img" data-id="${p.id}">
+  UI.products.innerHTML = list.map(p => `
+    <div class="product-card" data-id="${p.id}">
+      <img src="${p.image}" class="product-img">
       <h3>${p.title}</h3>
       <p>${p.price} $</p>
       <div class="produc-btns">
@@ -204,13 +185,19 @@ function renderProducts(list) {
         <button class="heart-button"><i class="fa-regular fa-heart"></i></button>
       </div>
     </div>
-  `).join("");
-      document.querySelectorAll(".product-img").forEach(img => {
-        img.addEventListener("click", (e) => {
-            const id = e.target.dataset.id;
-            window.location.href = `product.html?id=${id}`;
-        });
-    })
+    `).join("");
+}
+
+if (UI.products) {
+    UI.products.addEventListener("click", (e) => {
+        const card = e.target.closest(".product-card");
+        if (!card) return;
+
+        if (e.target.closest(".basket-btn") || e.target.closest(".heart-button")) return;
+
+        const id = card.dataset.id;
+        window.location.href = `product.html?id=${id}`;
+    });
 }
 
 function renderLoading() {
@@ -243,12 +230,17 @@ function toggleFavorite(id) {
     renderFavorites();
 }
 
-function addToCart(id) {
+function addToCart(id, qty = 1) {
     const item = State.cart.find(i => i.id === id);
-    item ? item.qty++ : State.cart.push({ id, qty: 1 });
+
+    if (item) {
+        item.qty += qty;
+    } else {
+        State.cart.push({ id, qty });
+    }
+
     localStorage.setItem("cart", JSON.stringify(State.cart));
     updateCounters();
-    syncUI();
 }
 
 function renderFavorites() {
@@ -366,6 +358,11 @@ function syncUI() {
 }
 
 function updateCounters() {
-    UI.favCount.textContent = State.favorites.length;
-    UI.cartCount.textContent = State.cart.reduce((t, i) => t + i.qty, 0);
+    if (UI.favCount) {
+        UI.favCount.textContent = State.favorites.length;
+    }
+    
+    if (UI.cartCount) {
+        UI.cartCount.textContent = State.cart.reduce((t, i) => t + i.qty, 0);
+    }
 }

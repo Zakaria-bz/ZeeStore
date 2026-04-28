@@ -277,6 +277,7 @@ header .container {
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     height: 100%;
     gap: 12px;
+    cursor: pointer;
 }
 
 .product-card:hover {
@@ -314,7 +315,7 @@ header .container {
 }
 
 .basket-btn {
-    width: 85%;
+    width: 100%;
     margin-left: 5px;
 }
 
