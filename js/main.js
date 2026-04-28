@@ -143,6 +143,23 @@ function filterByPrice() {
     applyFilters(currentFilters);
 }
 
+function bindEvents() {
+
+    const priceRange = document.getElementById("priceRange");
+    const priceValue = document.getElementById("priceValue");
+
+    if (priceRange && priceValue) {
+        priceValue.textContent = priceRange.value;
+
+        priceRange.addEventListener("input", () => {
+            priceValue.textContent = priceRange.value;
+
+            currentFilters.maxPrice = Number(priceRange.value);
+            applyFilters(currentFilters);
+        });
+    }
+}
+
 function applyFilters({ search = "", category = "all", minPrice = 0, maxPrice = Infinity }) {
     let result = [...State.products];
 

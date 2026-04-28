@@ -96,11 +96,22 @@
                     <div class="col2">
                         <div class="container-prod">
                             <div class="text-prod" align="left">
-                                <p class="description-text">: description</p> 
-                                <p class="description">${product.description}</p>
-                                <p class="prd-price"><strong>Price:</strong> $ ${product.price}</p>
+                                <p>${product.category}</p>
+                                <p class="prd-price">$ ${product.price}</p>
+                                <p>This Price does not include Shipping cost</p>
+                                <hr class="hr" />
+                                <p class="qnt">Quantity</p>
+                                <div class="Add-Remove">
+                                    <p>Available</p>
+                                    <div class="content">
+                                        <button id="equal">+</button>
+                                            <span>1</span>
+                                        <button id="mins">-</button>
+                                    </div>
+                                </div>
+                                <button></button>
+                                <button id="buy">Buy Now</button>
                                 <button id="add-to-cart">Add To Cart</button>
-                                <button class="back-btn" onclick="window.history.back()">Back</button>
                             </div>
                         </div>
                     </div>
@@ -108,6 +119,8 @@
                         <img src="${product.image}" alt="${product.title}" class="img-prd">
                     </div>
                 </div>
+                <p class="description-text">: description</p> 
+                <p lang="en" class="description">${product.description}</p>
                 `;
 
                 // 🔥 جلب منتجات من نفس الصنف
@@ -127,14 +140,14 @@
                     
                         relatedProducts.forEach(item => {
                         
-                            // لتفادي عرض نفس المنتج
                             if (item.id !== product.id) {
                                 relatedContainer.innerHTML += `
                                     <div class="related-card">
-                                        <img src="${item.image}">
+                                        <a href="product.html?id=${item.id}">
+                                            <img src="${item.image}">
+                                        </a>
                                         <h4>${item.title}</h4>
                                         <p>$${item.price}</p>
-                                        <a href="product.html?id=${item.id}">عرض</a>
                                     </div>
                                 `;
                             }

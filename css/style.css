@@ -219,6 +219,16 @@ header .container {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+.Price-btn {
+    background-color: var(--light);
+    border: none;
+    box-shadow: 0 0 5px black;
+    border-radius: 10px;
+    padding: 5px 10px 5px 5px;
+    margin-bottom: 5px;
+    outline: 1px solid black;
+}
+
 .sidebar h3 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
