@@ -551,6 +551,34 @@ header .container {
 }
 
 .cart-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: fit-content;
+    height: 40px;
+    background: var(--light);
+    border-radius: 30px;
+    padding: 8px 8px;
+}
+
+.cart-controls button {
+    border: none;
+    background: none;
+    font-size: 18px;
+    cursor: pointer;
+    width: fit-content;
+    padding: 3px 10px;
+    border-radius: 10px;
+    transition: 0.5s;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.cart-controls button:hover {
+    background: #2564ebad;
+}
+
+/* .cart-controls {
     background: var(--light);
     width: fit-content;
     padding: 10px 20px;
@@ -565,11 +593,7 @@ header .container {
     padding: 4px 10px;
     color: white;
     font-weight: bold;
-}
-
-.cart-controls button:hover {
-    background: #2564ebda;
-}
+} */
 
 .cart-total {
     display: flex;

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="top-sidebar">
+      <h2 class="logo">
+        <a href="dashboard.html">
+          <img src="assest/banner/christopher-gower-_aXa21cf7rY-unsplash.jpg" alt="">
+        </a><span>Admin</span>
+      </h2>
+      <button id="toggle-btn">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+    <ul>
+      <li><a href="dashboard.html" class="active">
+        <i class="fa-solid fa-house"></i> <span>Dashboard</span>
+      </a></li>
+      <li><a href="">
+        <i class="fa-solid fa-cart-shopping"></i> <span>Orders</span></li>
+      </a>
+      <li>
+        <a href=""><i class="fa-solid fa-box"></i> <span>Products</span></a>
+      </li>
+      <li>
+        <a href=""><i class="fa-solid fa-users"></i> <span>Customers</span></a>
+      </li>
+      <li>
+        <a href=""><i class="fa-solid fa-chart-line"></i> <span>Analytics</span></a>
+      </li>
+    </ul>
+    <button class="logout">
+      <a href="index.html">
+        <span> LoGout</span>
+        <i class="fa fa-sign-out" aria-hidden="true"></i>
+      </a>
+    </button>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <h3>Welcome back, Zakaria</h3>
+        <div class="content-search">
+          <button class="btn-search">
+            <i class="fa fa-search"></i>
+          </button>
+          <input type="text" placeholder="Search Anything..." />
+      </div>
+      <div class="content-buttons">
+        <button id="fa-bell">
+          <i class="fas fa-bell"></i>
+          <span class="num-btn">3</span>
+        </button>
+        <button id="fa-comments">
+          <!-- <i class="fa-solid fa-message"></i> أيقونة رسالة عادية -->
+          <i class="fa-solid fa-comments"></i> <!-- أيقونة محادثات متعددة -->
+          <span class="num-btn">0</span>
+        </button>
+      </div>
+      <div class="user">
+        <img src="assest/banner/photo-1607082350899-7e105aa886ae.jpeg" width="50px" alt="">
+        <span>Zakaria</span>
+      </div>
+    </div>
+
+    <!-- cards -->
+    <div class="cards">
+
+    <!-- Revenue -->
+    <div class="card delay-1">
+      <div class="card-top">
+        <div class="card-title">
+          <div class="icon green">
+            <i class="fa-solid fa-dollar-sign"></i>
+          </div>
+          <span>Revenue</span>
+        </div>
+      </div>
+    
+      <h1 id="revenue">$0</h1>
+    
+      <div class="card-bottom">
+        <span class="trend up">
+          <i class="fa-solid fa-arrow-up"></i> 12.5% this week
+        </span>
+        <canvas class="mini-chart"></canvas>
+      </div>
+    </div>
+  
+    <!-- Orders -->
+    <div class="card delay-2">
+      <div class="card-top">
+        <div class="card-title">
+          <div class="icon blue">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </div>
+          <span>Orders</span>
+        </div>
+      </div>
+    
+      <h1 id="orders">0</h1>
+    
+      <div class="card-bottom">
+        <span class="trend up">
+          <i class="fa-solid fa-arrow-up"></i> 8.2% this week
+        </span>
+        <canvas class="mini-chart"></canvas>
+      </div>
+    </div>
+  
+    <!-- Customers -->
+    <div class="card delay-3">
+      <div class="card-top">
+        <div class="card-title">
+          <div class="icon purple">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <span>Customers</span>
+        </div>
+      </div>
+    
+      <h1 id="customers">0</h1>
+    
+      <div class="card-bottom">
+        <span class="trend down">
+          <i class="fa-solid fa-arrow-down"></i> 3.1% this week
+        </span>
+        <canvas class="mini-chart"></canvas>
+      </div>
+    </div>
+  
+    <!-- Avg -->
+    <div class="card delay-4">
+      <div class="card-top">
+        <div class="card-title">
+          <div class="icon orange">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <span>Avg Order</span>
+        </div>
+      </div>
+    
+      <h1 id="avg">0</h1>
+    
+      <div class="card-bottom">
+        <span class="trend up">
+          <i class="fa-solid fa-arrow-up"></i> 5.7% this week
+        </span>
+        <canvas class="mini-chart"></canvas>
+      </div>
+    </div>
+  
+  </div>
+
+  <!-- Analytics Section -->
+<div class="analytics">
+
+  <!-- Top Selling Products -->
+  <div class="widget delay-1">
+    <h3>Top Selling Products</h3>
+
+    <div class="product">
+      <span>iPhone 15</span>
+      <div class="bar"><div style="width: 90%"></div></div>
+      <small>90%</small>
+    </div>
+
+    <div class="product">
+      <span>MacBook Pro</span>
+      <div class="bar"><div style="width: 75%"></div></div>
+      <small>75%</small>
+    </div>
+
+    <div class="product">
+      <span>AirPods</span>
+      <div class="bar"><div style="width: 60%"></div></div>
+      <small>60%</small>
+    </div>
+  </div>
+
+  <!-- Recent Orders -->
+  <div class="widget delay-2">
+    <h3>Recent Orders</h3>
+
+    <div class="order">
+      <div>
+        <strong>#1024</strong>
+        <p>Zakaria</p>
+      </div>
+      <span class="status delivered">Delivered</span>
+    </div>
+
+    <div class="order">
+      <div>
+        <strong>#1025</strong>
+        <p>Ahmed</p>
+      </div>
+      <span class="status pending">Pending</span>
+    </div>
+
+    <div class="order">
+      <div>
+        <strong>#1026</strong>
+        <p>Yassine</p>
+      </div>
+      <span class="status shipped">Shipped</span>
+    </div>
+  </div>
+
+  <!-- Traffic Sources -->
+  <div class="widget delay-3">
+    <h3>Traffic Sources</h3>
+
+    <canvas id="trafficChart"></canvas>
+  </div>
+
+</div>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/dashboard.js"></script>
+
+</body>
+</html>

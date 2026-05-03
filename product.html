@@ -78,157 +78,251 @@
         </div>
     </header>
 
-    <div id="product-details"></div>
+    <div id="product-details" class="product-wrapper"></div>
 
     <script>
-
-
-    document.addEventListener("DOMContentLoaded", () => {
-        if(typeof updateCounters === 'function') updateCounters();
-    });
-
-            // if (!State.products.length) {
-            //     fetch("https://fakestoreapi.com/products")
-            //         .then(res => res.json())
-            //         .then(data => {
-            //             State.products = data;
-            //             localStorage.setItem("products", JSON.stringify(data));
-            //         });
-            // }
-
-    const params = new URLSearchParams(window.location.search);
-    const productId = Number(params.get("id"));
+        document.addEventListener("DOMContentLoaded", () => {
         
-    if (productId) {
-        fetch(`https://fakestoreapi.com/products/${productId}`)
-            .then(res => res.json())
-            .then(product => {
-            
-                // عرض المنتج الحالي
-                const container = document.getElementById("product-details");
-                container.innerHTML = `
-                <h3 class="h3-prd">${product.title}</h3>
-                <div class="row">
-                    <div class="col2">
-                        <div class="container-prod">
-                            <div class="text-prod" align="left">
-                                <p>${product.category}</p>
-                                <p class="prd-price">$ ${product.price}</p>
-                                <p>This Price does not include Shipping cost</p>
-                                <hr class="hr" />
-                                <p class="qnt">Quantity</p>
-                                <div class="Add-Remove">
-                                    <p>Available</p>
-                                <div class="content">
-                                    <button id="plus">+</button>
-                                    <span id="qty">1</span>
-                                    <button id="minus">-</button>
-                                </div>
-                                </div>
-                                <button id="buy">Buy Now</button>
-                                <button id="add-to-cart" class="basket-btn">
-                                    <i class="fa-solid fa-cart-plus"></i>
-                                    إضافة إلى السلة
-                                </button>
-
-                                <button id="fav-product" class="heart-btn">
-                                    <i class="fa-regular fa-heart"></i>
-                                    إضافة للمفضلة
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col2">
-                        <img src="${product.image}" alt="${product.title}" class="img-prd">
-                    </div>
-                </div>
-                <p class="description-text">: description</p> 
-                <p lang="en" class="description">${product.description}</p>
-                `;
-
-                function showMsg(text) {
-                    const div = document.createElement("div");
-                    div.className = "msg";
-                    div.innerText = text;
-                    document.body.appendChild(div);
-                                    
-                    setTimeout(() => div.remove(), 2000);
+            const id = new URLSearchParams(location.search).get("id");
+        
+            // ================== STATE ==================
+            const State = {
+                favorites: JSON.parse(localStorage.getItem("favorites")) || [],
+                cart: JSON.parse(localStorage.getItem("cart")) || []
+            };
+        
+            let product = null;
+            let qty = 1;
+        
+            // ================== HELPERS ==================
+            function updateCounters() {
+                document.getElementById("fav-count").innerText = State.favorites.length;
+                document.getElementById("cart-count").innerText =
+                    State.cart.reduce((t, i) => t + i.qty, 0);
+            }
+        
+            function getQty(id) {
+                const q = JSON.parse(localStorage.getItem("qty")) || {};
+                return q[id] || 1;
+            }
+        
+            function saveQty(id, qty) {
+                const q = JSON.parse(localStorage.getItem("qty")) || {};
+                q[id] = qty;
+                localStorage.setItem("qty", JSON.stringify(q));
+            }
+        
+            function stars(r) {
+                let s = "";
+                for (let i = 1; i <= 5; i++) {
+                    if (r >= i) s += `<span class="star filled">★</span>`;
+                    else if (r >= i - 0.5) s += `<span class="star half">★</span>`;
+                    else s += `<span class="star">★</span>`;
                 }
+                return s;
+            }
+        
+            function addToCart(id, quantity = 1) {
+                const item = State.cart.find(i => i.id === id);
+            
+                if (item) item.qty += quantity;
+                else State.cart.push({ id, qty: quantity });
+            
+                localStorage.setItem("cart", JSON.stringify(State.cart));
+                updateCounters();
+            }
+        
+            function toggleFav(id) {
+                State.favorites.includes(id)
+                    ? State.favorites = State.favorites.filter(f => f !== id)
+                    : State.favorites.push(id);
+            
+                localStorage.setItem("favorites", JSON.stringify(State.favorites));
+                updateCounters();
+            }
+        
+            // ================== RENDER ==================
+            function renderProduct(p) {
+            
+                document.getElementById("product-details").innerHTML = `
+                <div class="product-layout">
+                
+                    <div class="left">
+                        <div class="zoom-wrapper">
+                            <div class="img-zoom-container">
+                                <img id="main-img" src="${p.image}" class="img-prd">
+                            </div>
+                            <div id="zoom-result"></div>
+                        </div>
+                        <div class="thumbs"></div>
+                    </div>
+                
+                    <div class="middle">
+                        <h2 class="title">${p.title}</h2>
+                        <div class="rating">
+                            ${stars(p.rating.rate)} <span>${p.rating.rate}</span>
+                        </div>
+                        <p class="category">${p.category}</p>
+                        <hr>
+                        <p class="desc">${p.description}</p>
+                    </div>
+                
+                    <div class="right">
+                        <p class="price"></p>
+                    
+                        <div class="quantity-box">
+                            <button class="minus">-</button>
+                            <span class="qty">${qty}</span>
+                            <button class="plus">+</button>
+                        </div>
+                    
+                        <button class="btn-buy" id="buy">شراء الآن</button>
+                        <button class="btn-cart" id="cart">إضافة للسلة</button>
+                        <button class="btn-fav" id="fav">❤️</button>
+                    </div>
+                
+                </div>
+                `;
+            
+                initAfterRender();
+                updatePrice();
+                renderGallery();
+                renderZoom();
+                renderRelated();
+            }
+        
+            // ================== AFTER RENDER ==================
+            function initAfterRender() {
+            
+                document.addEventListener("click", (e) => {
+                
+                    if (e.target.classList.contains("plus")) {
+                        qty++;
+                        updatePrice();
+                    }
+                
+                    if (e.target.classList.contains("minus")) {
+                        if (qty > 1) {
+                            qty--;
+                            updatePrice();
+                        }
+                    }
 
-                let quantity = 1;
-
-                const qtyEl = document.getElementById("qty");
-
-                document.getElementById("plus").addEventListener("click", () => {
-                    quantity++;
-                    qtyEl.textContent = quantity;
-                });
-
-                document.getElementById("minus").addEventListener("click", () => {
-                    if (quantity > 1) {
-                        quantity--;
-                        qtyEl.textContent = quantity;
+                    if (e.target.id === "cart") {
+                        addToCart(product.id, qty);
+                                        
+                                        
+                        const conCart = document.createElement("div");
+                        conCart.className = "conCart";
+                                        
+                                        
+                        conCart.innerHTML = `
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>تمت الإضافة إلى السلة</span>
+                        `;
+                                        
+                                        
+                        document.body.appendChild(conCart);
+                                        
+                                        
+                        setTimeout(() => {
+                            conCart.remove();
+                        }, 3000);
+                    }
+                
+                    if (e.target.id === "fav") {
+                        toggleFav(product.id);
+                        alert("تم تحديث المفضلة");
+                    }
+                
+                    if (e.target.id === "buy") {
+                        addToCart(product.id, qty);
+                        localStorage.setItem("checkout", JSON.stringify(State.cart));
+                        location.href = "checkout.html";
                     }
                 });
-
-                document.getElementById("add-to-cart").addEventListener("click", () => {
-                    addToCart(product.id, quantity);
-                    updateCounters();
-                    showMsg("تمت الإضافة للسلة 🛒");
-                });
-
-                document.getElementById("fav-product").addEventListener("click", () => {
-                    toggleFavorite(product.id); 
-                    updateCounters();
-                    showMsg("تمت الإضافة للمفضلة ❤️");
-                });
+            }
+        
+            // ================== PRICE ==================
+            function updatePrice() {
+                const priceEl = document.querySelector(".price");
+                const qtyEl = document.querySelector(".qty");
+            
+                if (!priceEl || !qtyEl) return;
+            
+                priceEl.innerText = `$${(product.price * qty).toFixed(2)}`;
+                qtyEl.innerText = qty;
+            
+                saveQty(product.id, qty);
+            }
+        
+            // ================== ZOOM ==================
+            function renderZoom() {
+                const img = document.getElementById("main-img");
+                const result = document.getElementById("zoom-result");
+            
+                if (!img) return;
+            
+                img.addEventListener("mousemove", (e) => {
+                    const rect = img.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width;
+                    const y = (e.clientY - rect.top) / rect.height;
                 
-                document.getElementById("buy").addEventListener("click", () => {
-                    addToCart(product.id);
-                        localStorage.setItem("checkout", JSON.stringify(State.cart));
-                        window.location.href = "checkout.html";
+                    result.style.display = "block";
+                    result.style.backgroundImage = `url(${img.src})`;
+                    result.style.backgroundSize = `${img.width * 2}px ${img.height * 2}px`;
+                    result.style.backgroundPosition = `${x * 100}% ${y * 100}%`;
                 });
-
-                if (State.cart.some(c => c.id === product.id)) {
-                    const btn = document.getElementById("add-to-cart");
-                    btn.innerText = "✔ تمت الإضافة";
-                    btn.disabled = true;
-                }
-
-                // 🔥 جلب منتجات من نفس الصنف
+            
+                img.addEventListener("mouseleave", () => {
+                    result.style.display = "none";
+                });
+            }
+        
+            // ================== GALLERY ==================
+            function renderGallery() {
+                const thumbs = document.querySelector(".thumbs");
+            
+                thumbs.innerHTML = [product.image, product.image, product.image]
+                    .map(src => `<img src="${src}">`).join("");
+            
+                thumbs.querySelectorAll("img").forEach(t => {
+                    t.onclick = () => document.getElementById("main-img").src = t.src;
+                });
+            }
+        
+            // ================== RELATED ==================
+            function renderRelated() {
                 fetch(`https://fakestoreapi.com/products/category/${product.category}`)
-                    .then(res => res.json())
-                    .then(relatedProducts => {
-                    
-                        const relatedContainer = document.querySelector(".related-container");
-
-                        const container = document.querySelector('.related-container');
-                            
-                        container.addEventListener('wheel', (e) => {
-                            e.preventDefault();
-                            container.scrollLeft += e.deltaY;
-                        });
-                
-                        const html = relatedProducts
-                        .filter(item => item.id !== product.id)
-                        .map(item => `
-                            <div class="related-card">
-                                <a href="product.html?id=${item.id}">
-                                    <img src="${item.image}">
-                                </a>
-                                <h4>${item.title}</h4>
-                                <p>$${item.price}</p>
-                            </div>
-                        `).join("");
-                        
-                    relatedContainer.innerHTML = html;
-                    
+                    .then(r => r.json())
+                    .then(data => {
+                        document.querySelector(".related-container").innerHTML =
+                            data.filter(p => p.id != product.id).map(p => `
+                                <div class="related-card">
+                                    <a href="product.html?id=${p.id}">
+                                        <img src="${p.image}">
+                                    </a>
+                                    <h4>${p.title.slice(0,30)}</h4>
+                                    <p>$${p.price}</p>
+                                </div>
+                            `).join("");
                     });
-                
-            });
-    } else {
-        document.getElementById("product-details").innerHTML = "<p>Product not found</p>";
-    }
+            }
+        
+            // ================== INIT ==================
+            updateCounters();
+        
+            if (id) {
+                fetch(`https://fakestoreapi.com/products/${id}`)
+                    .then(r => r.json())
+                    .then(p => {
+                        product = p;
+                        qty = getQty(p.id);
+                        renderProduct(p);
+                    });
+            }
+        
+        });
     </script>
 
     <aside id="fav-sidebar">
