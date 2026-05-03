@@ -3,7 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <title>Dashboard</title>
-  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/01-design-tokens.css">
+  <link rel="stylesheet" href="css/02-reset-base.css">
+  <link rel="stylesheet" href="css/03-layout-sidebar.css">
+  <link rel="stylesheet" href="css/04-topbar-main.css">
+  <link rel="stylesheet" href="css/06-animations.css">
+  <link rel="stylesheet" href="css/07-cards.css">
+  <link rel="stylesheet" href="css/08-analytics.css">
+  <link rel="stylesheet" href="css/09-widget-products-orders.css">
+  <link rel="stylesheet" href="css/10-traffic-widget.css">
+  <link rel="stylesheet" href="css/11-responsive.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -122,7 +131,7 @@
     </div>
   
     <!-- Customers -->
-    <div class="card delay-3">
+    <div class="card delay-3" >
       <div class="card-top">
         <div class="card-title">
           <div class="icon purple">
@@ -221,15 +230,36 @@
   </div>
 
   <!-- Traffic Sources -->
-  <div class="widget delay-3">
+   <div class="traffic-widget-pro">
+
+  <!-- Header -->
+  <div class="tw-header">
     <h3>Traffic Sources</h3>
 
-    <canvas id="trafficChart"></canvas>
+    <select id="twFilter">
+      <option value="week">This week</option>
+      <option value="month">This month</option>
+      <option value="year">This year</option>
+    </select>
   </div>
 
-</div>
+  <!-- Chart -->
+  <div class="tw-chart-box">
+    <canvas id="twChart"></canvas>
 
-  </main>
+    <div class="tw-center">
+      <h2 id="twTotal">0</h2>
+      <span>Total Visits</span>
+    </div>
+  </div>
+
+  <!-- List -->
+  <div class="tw-list" id="twList"></div>
+
+  <!-- States -->
+  <div class="tw-empty hidden">No data available</div>
+  <div class="tw-loading" id="twLoading"></div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

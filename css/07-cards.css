@@ -1,0 +1,97 @@
+/* ══════════════════════════════
+   STAT CARDS
+══════════════════════════════ */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: var(--s4);
+  padding: var(--s5);
+}
+
+.card {
+  animation: fadeUp var(--slow) var(--ease) forwards;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--s4);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(20px);
+  will-change: transform;
+  transition: transform var(--normal) var(--ease),
+              border-color var(--normal),
+              box-shadow var(--normal);
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.01);
+  border-color: rgba(91,94,244,0.35);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.45), 0 0 0 1px rgba(91,94,244,0.08);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.card-title span {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon.green  { background: var(--green-dim);  color: var(--green); }
+.icon.blue   { background: var(--blue-dim);   color: var(--blue); }
+.icon.purple { background: var(--purple-dim); color: var(--purple); }
+.icon.orange { background: var(--orange-dim); color: var(--orange); }
+
+.card h1 {
+  font-family: var(--font-mono);
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.card-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.trend {
+  display: inline-flex;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: var(--r-full);
+}
+
+.trend.up   { background: var(--green-dim); color: var(--green); }
+.trend.down { background: var(--red-dim);   color: var(--red); }
+
+.mini-chart {
+  width: 100% !important;
+  height: 80px !important;
+  display: block;
+  opacity: 0.75;
+}

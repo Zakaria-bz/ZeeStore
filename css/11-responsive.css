@@ -1,0 +1,65 @@
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media (max-width: 900px) {
+  .topbar {
+    flex-wrap: wrap;
+    gap: var(--s2);
+  }
+
+  .content-search {
+    max-width: 100%;
+  }
+
+  .user {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .analytics {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* MOBILE FIX: SIDEBAR */
+@media (max-width: 640px) {
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: auto;
+  }
+
+  .sidebar.closed {
+    width: 100%;
+  }
+
+  /* MAIN SCROLL FIX */
+  .main {
+    overflow: visible;
+  }
+
+  /* CARDS GRID FIX */
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* ANALYTICS STACK */
+  .analytics {
+    grid-template-columns: 1fr;
+  }
+}

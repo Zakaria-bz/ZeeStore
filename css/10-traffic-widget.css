@@ -1,0 +1,134 @@
+/* ══════════════════════════════
+   TRAFFIC SOURCES WIDGET
+══════════════════════════════ */
+.traffic-widget-pro {
+  min-height: 420px;
+}
+
+/* header */
+.tw-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* filter */
+#twFilter {
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: var(--r-sm);
+}
+
+/* chart */
+.tw-chart-box {
+  position: relative;
+  height: 180px;
+}
+
+#twChart {
+  position: absolute;
+  inset: 0;
+}
+
+/* center text */
+.tw-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+}
+
+.tw-center h2 {
+  font-family: var(--font-mono);
+  font-size: 26px;
+}
+
+/* list */
+.tw-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.tw-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 10px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+}
+
+.tw-item:hover {
+  background: var(--surface-2);
+}
+
+.tw-item.active {
+  background: var(--primary-dim);
+}
+
+/* dot */
+.tw-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+/* states */
+.tw-empty {
+  text-align: center;
+  color: var(--muted);
+}
+
+.tw-loading {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  animation: shimmer 1.4s infinite;
+}
+
+.hidden { display: none !important; }
+
+/* ACTIVE ITEM STATE */
+.tw-item.active {
+  background: var(--primary-dim);
+  border-color: rgba(91, 94, 244, 0.3);
+}
+
+/* HOVER EFFECT IMPROVEMENT */
+.tw-item:hover {
+  transform: translateX(3px);
+}
+
+/* LOADING OVERLAY */
+.tw-loading {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-lg);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.04) 50%,
+    transparent 100%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+/* EMPTY STATE */
+.tw-empty {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  padding: var(--s5) 0;
+}
+
+/* HIDDEN UTILITY */
+.hidden {
+  display: none !important;
+}

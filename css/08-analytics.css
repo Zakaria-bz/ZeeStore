@@ -1,0 +1,65 @@
+/* ══════════════════════════════
+   ANALYTICS SECTION
+══════════════════════════════ */
+.analytics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: var(--s4);
+  padding: var(--s4) var(--s5) var(--s5);
+}
+
+/* WIDGET BASE */
+.widget,
+.traffic-widget-pro {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--s4);
+  height: fit-content;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.widget:hover,
+.traffic-widget-pro:hover {
+  transform: translateY(-5px);
+  border-color: rgba(91, 94, 244, 0.35);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+.widget::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.widget h3,
+.traffic-widget-pro h3 {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* WIDGET TEXT FIX */
+.widget > *:not(h3),
+.traffic-widget-pro > *:not(.tw-header) {
+  min-width: 0;
+}
+
+/* HOVER FIX (smooth movement) */
+.widget,
+.traffic-widget-pro {
+  transition: transform var(--normal) var(--ease),
+              border-color var(--normal),
+              box-shadow var(--normal);
+}

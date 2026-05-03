@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+/* ══════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════ */
+:root {
+  /* Backgrounds */
+  --bg:        #070c18;
+  --surface:   #0c1424;
+  --surface-2: #111d30;
+  --surface-3: #18263c;
+  --surface-4: #1e2f47;
+
+  /* Text */
+  --text:    #dde4f0;
+  --muted:   #7a8aa0;
+  --subtle:  #3d5068;
+
+  /* Brand */
+  --primary:      #5b5ef4;
+  --primary-dim:  rgba(91, 94, 244, 0.18);
+  --primary-glow: rgba(91, 94, 244, 0.35);
+
+  /* Semantic colours */
+  --green:      #0fba80;
+  --green-dim:  rgba(15, 186, 128, 0.15);
+  --red:        #f04f4f;
+  --red-dim:    rgba(240, 79, 79, 0.15);
+  --orange:     #f5a623;
+  --orange-dim: rgba(245, 166, 35, 0.15);
+  --blue:       #3b8ef5;
+  --blue-dim:   rgba(59, 142, 245, 0.15);
+  --purple:     #a855f7;
+  --purple-dim: rgba(168, 85, 247, 0.15);
+
+  /* Chart colours (must match COLORS array in dashboard.js) */
+  --c0: #6366f1;
+  --c1: #22c55e;
+  --c2: #f59e0b;
+  --c3: #3b82f6;
+
+  /* Borders */
+  --border:       rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.12);
+
+  /* Radius */
+  --r-sm:   8px;
+  --r-md:   12px;
+  --r-lg:   16px;
+  --r-xl:   22px;
+  --r-full: 9999px;
+
+  /* Spacing */
+  --s1: 4px;   --s2: 8px;   --s3: 12px;
+  --s4: 16px;  --s5: 24px;  --s6: 32px;
+
+  /* Typography */
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px  rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.55);
+
+  /* Sidebar widths */
+  --sidebar-open:     260px;
+  --sidebar-closed:   72px;
+
+  /* Transitions */
+  --ease:   cubic-bezier(.4, 0, .2, 1);
+  --fast:   160ms;
+  --normal: 320ms;
+  --slow:   560ms;
+}
